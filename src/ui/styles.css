@@ -465,3 +465,342 @@ body {
   font-weight: 800;
   color: var(--bronze);
 }
+
+/* ===================== 语义演化对比报告 ===================== */
+
+.report-hint {
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--ash);
+  line-height: 1.6;
+}
+
+.report-result {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.report-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+.export-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.export-label {
+  font-size: 13px;
+  color: var(--ash);
+}
+
+.btn-tool {
+  background: var(--ink-card);
+  border: 1px solid var(--ink-border);
+  color: var(--silk);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-tool:hover {
+  border-color: var(--bronze);
+  color: var(--bronze);
+}
+
+.btn-reselect:hover {
+  border-color: var(--jade);
+  color: var(--jade);
+}
+
+.btn-export {
+  border-color: rgba(212, 175, 55, 0.4);
+  color: var(--bronze);
+}
+
+/* 报告元信息卡 */
+.report-meta-card {
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-border);
+  border-radius: 12px;
+  padding: 22px 24px;
+}
+
+.report-meta-idioms {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 16px;
+}
+
+.meta-idiom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.meta-idiom-label {
+  font-size: 11px;
+  color: var(--ash);
+  letter-spacing: 1px;
+}
+
+.meta-idiom-name {
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 4px;
+  font-family: var(--font-serif);
+}
+
+.meta-idiom-pinyin {
+  font-size: 12px;
+  color: var(--bronze);
+  font-family: monospace;
+}
+
+.meta-vs {
+  width: 44px;
+  height: 44px;
+  background: var(--vermilion);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.report-meta-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--ink-border);
+  font-size: 12px;
+  color: var(--ash);
+}
+
+.meta-confidence {
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 12px;
+}
+
+.confidence-高 {
+  background: rgba(64, 145, 108, 0.2);
+  color: var(--jade);
+}
+
+.confidence-中 {
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--bronze);
+}
+
+.confidence-低 {
+  background: rgba(201, 59, 43, 0.2);
+  color: var(--vermilion);
+}
+
+.report-missing-banner {
+  margin-top: 14px;
+  background: rgba(201, 59, 43, 0.12);
+  border: 1px solid rgba(201, 59, 43, 0.4);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #f0c4bd;
+  line-height: 1.6;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.missing-banner-icon {
+  flex-shrink: 0;
+}
+
+.report-complete-banner {
+  margin-top: 14px;
+  background: rgba(64, 145, 108, 0.12);
+  border: 1px solid rgba(64, 145, 108, 0.4);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #bfe3cf;
+  line-height: 1.6;
+}
+
+/* 报告分段 */
+.report-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.report-section {
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-border);
+  border-left: 4px solid var(--bronze);
+  border-radius: 10px;
+  padding: 20px 24px;
+}
+
+.report-section.is-missing {
+  border-left-color: var(--vermilion);
+  background: rgba(201, 59, 43, 0.06);
+}
+
+.report-section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.report-roman {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--bronze);
+  font-family: var(--font-serif);
+}
+
+.report-section.is-missing .report-roman {
+  color: var(--vermilion);
+}
+
+.report-section-head h3 {
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 2px;
+  flex: 1;
+}
+
+.report-status {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.st-verified {
+  background: rgba(64, 145, 108, 0.2);
+  color: var(--jade);
+  border: 1px solid rgba(64, 145, 108, 0.4);
+}
+
+.st-derived {
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--bronze);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.st-missing {
+  background: rgba(201, 59, 43, 0.2);
+  color: var(--vermilion);
+  border: 1px solid rgba(201, 59, 43, 0.4);
+}
+
+.report-content {
+  font-size: 14px;
+  color: var(--silk);
+  line-height: 1.8;
+}
+
+.report-missing-block {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+
+.missing-tag {
+  display: inline-block;
+  background: var(--vermilion);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.missing-reason {
+  font-size: 13px;
+  color: #f0c4bd;
+  line-height: 1.7;
+}
+
+.report-evidence {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--ink-border);
+}
+
+.evidence-label {
+  font-size: 11px;
+  color: var(--ash);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.report-evidence ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.report-evidence li {
+  font-size: 12px;
+  color: var(--ash);
+  line-height: 1.7;
+  padding-left: 14px;
+  position: relative;
+}
+
+.report-evidence li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--bronze);
+}
+
+.report-section.is-missing .report-evidence li::before {
+  color: var(--vermilion);
+}
+
+@media (max-width: 768px) {
+  .report-meta-idioms {
+    gap: 14px;
+  }
+  .meta-idiom-name {
+    font-size: 22px;
+  }
+  .report-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .export-group {
+    justify-content: center;
+  }
+}

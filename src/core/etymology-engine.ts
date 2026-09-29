@@ -4,7 +4,9 @@ import {
   OracleChar,
   SemanticDNA,
   AllusionSource,
-  SemanticEvolutionStep
+  SemanticEvolutionStep,
+  SemanticEvolutionReport,
+  ReportSection
 } from './models';
 
 export function calculateKinship(a: IdiomProfile, b: IdiomProfile): KinshipResult {
@@ -116,6 +118,216 @@ export function generateGenericIdiom(text: string): IdiomProfile {
     evolutionPath,
     dna,
     modernDefinition: `四字结构凝炼凝缩了东方思维智慧，蕴含深厚的文化心智密码。`,
-    syntacticRole: '常作宾语、定语或分句，具较强修辞概括力'
+    syntacticRole: '常作宾语、定语或分句，具较强修辞概括力',
+    dataVerified: false
   };
+}
+
+/* ===================== 语义演化对比报告 ===================== */
+
+const STATUS_LABEL: Record<ReportSection['status'], string> = {
+  verified: '已考证',
+  derived: '推演',
+  missing: '缺失'
+};
+
+/** 返回未通过考据验证的词条名称（带书名号），用于缺失原因措辞。 */
+function unverifiedNames(a: IdiomProfile, b: IdiomProfile): string {
+  if (!a.dataVerified && !b.dataVerified) return `《${a.idiom}》与《${b.idiom}》`;
+  if (!a.dataVerified) return `《${a.idiom}》`;
+  return `《${b.idiom}》`;
+}
+
+/** 取演化路径中首个脱离「本义」的 era，作为该词条的分叉时期。 */
+function findDivergenceEra(profile: IdiomProfile): string | null {
+  const path = profile.evolutionPath;
+  if (!path || path.length < 2) return null;
+  const diverge = path.find(s => s.semanticCategory === '引申义' || s.semanticCategory === '比喻义');
+  return diverge ? diverge.era : null;
+}
+
+function buildAncestralSection(a: IdiomProfile, b: IdiomProfile, missingFields: string[]): ReportSection {
+  if (!a.dataVerified || !b.dataVerified) {
+    return {
+      key: 'ancestral',
+      title: '共同祖义',
+      status: 'missing',
+      content: '',
+      missingReason: `${unverifiedNames(a, b)}为生成条目，考据字段缺失，无法推定共同祖义。`,
+      evidence: []
+    };
+  }
+  const shared = a.dna.coreSememes.filter(s => b.dna.coreSememes.includes(s));
+  if (shared.length === 0) {
+    return {
+      key: 'ancestral',
+      title: '共同祖义',
+      status: 'missing',
+      content: '',
+      missingReason: '两词条核心义原无交叠，语义群落相距甚远，无法推定共同祖义。',
+      evidence: [
+        `《${a.idiom}》义原：${a.dna.coreSememes.join('、')}`,
+        `《${b.idiom}》义原：${b.dna.coreSememes.join('、')}`
+      ]
+    };
+  }
+  return {
+    key: 'ancestral',
+    title: '共同祖义',
+    status: 'derived',
+    content: `二者在语义底层存在交叠，共同指向【${shared.join('、')}】这一语义内核。溯其本义，皆由具体物象或行为生发，后经引申而趋于抽象哲理，呈现“具象→抽象”的同源演化逻辑。`,
+    evidence: [
+      `共现义原：${shared.join('、')}`,
+      `《${a.idiom}》本义：${a.evolutionPath[0]?.meaning ?? ''}`,
+      `《${b.idiom}》本义：${b.evolutionPath[0]?.meaning ?? ''}`
+    ]
+  };
+}
+
+function buildDivergenceSection(a: IdiomProfile, b: IdiomProfile, missingFields: string[]): ReportSection {
+  if (!a.dataVerified || !b.dataVerified) {
+    return {
+      key: 'divergence',
+      title: '分叉时期',
+      status: 'missing',
+      content: '',
+      missingReason: `${unverifiedNames(a, b)}为生成条目，演化路径不完整，无法判定分叉时期。`,
+      evidence: []
+    };
+  }
+  const eraA = findDivergenceEra(a);
+  const eraB = findDivergenceEra(b);
+  if (!eraA || !eraB) {
+    return {
+      key: 'divergence',
+      title: '分叉时期',
+      status: 'missing',
+      content: '',
+      missingReason: '两词条演化路径缺少「引申义/比喻义」节点，无法判定分叉时期。',
+      evidence: [
+        `《${a.idiom}》路径：${a.evolutionPath.map(s => s.era).join(' → ')}`,
+        `《${b.idiom}》路径：${b.evolutionPath.map(s => s.era).join(' → ')}`
+      ]
+    };
+  }
+  return {
+    key: 'divergence',
+    title: '分叉时期',
+    status: 'derived',
+    content: `《${a.idiom}》于【${eraA}】由本义引申，《${b.idiom}》于【${eraB}】由本义引申。二者在本义阶段尚属同质（皆为具体物象或行为），进入引申阶段后分道扬镳，各自形成独立的语义脉络。`,
+    evidence: [
+      `《${a.idiom}》分叉节点：${eraA}（${a.evolutionPath.find(s => s.era === eraA)?.semanticCategory ?? ''}）`,
+      `《${b.idiom}》分叉节点：${eraB}（${b.evolutionPath.find(s => s.era === eraB)?.semanticCategory ?? ''}）`
+    ]
+  };
+}
+
+function buildModernSection(a: IdiomProfile, b: IdiomProfile, missingFields: string[]): ReportSection {
+  if (!a.dataVerified || !b.dataVerified) {
+    return {
+      key: 'modern',
+      title: '现代差异',
+      status: 'missing',
+      content: '',
+      missingReason: `${unverifiedNames(a, b)}为生成条目，现代释义与句法功能为占位推演，无法比对现代差异。`,
+      evidence: []
+    };
+  }
+  const samePolarity = a.dna.polarity === b.dna.polarity;
+  const diffs = [
+    `感情色彩：《${a.idiom}》为【${a.dna.polarity}】，《${b.idiom}》为【${b.dna.polarity}】（${samePolarity ? '相同' : '迥异'}）。`,
+    `句法功能：《${a.idiom}》${a.syntacticRole}；《${b.idiom}》${b.syntacticRole}。`,
+    `现代释义：《${a.idiom}》${a.modernDefinition}；《${b.idiom}》${b.modernDefinition}。`
+  ];
+  return {
+    key: 'modern',
+    title: '现代差异',
+    status: 'verified',
+    content: `二者在现代语用中呈现显著差异。${diffs.join('')}`,
+    evidence: [
+      `《${a.idiom}》现代释义：${a.modernDefinition}`,
+      `《${b.idiom}》现代释义：${b.modernDefinition}`
+    ]
+  };
+}
+
+export function buildEvolutionReport(a: IdiomProfile, b: IdiomProfile): SemanticEvolutionReport {
+  const missingFields: string[] = [];
+
+  const ancestral = buildAncestralSection(a, b, missingFields);
+  const divergence = buildDivergenceSection(a, b, missingFields);
+  const modern = buildModernSection(a, b, missingFields);
+
+  // 汇总缺失字段标签
+  [ancestral, divergence, modern].forEach(s => {
+    if (s.status === 'missing') missingFields.push(s.title);
+  });
+
+  const overallConfidence: SemanticEvolutionReport['overallConfidence'] =
+    missingFields.length === 0 ? '高' : missingFields.length === 1 ? '中' : '低';
+
+  return {
+    id: `report-${Date.now()}`,
+    idiomA: a,
+    idiomB: b,
+    generatedAt: new Date().toISOString(),
+    sections: { ancestral, divergence, modern },
+    missingFields,
+    overallConfidence,
+    commonAncestralMeaning: ancestral.status === 'missing' ? '（缺失）' : ancestral.content,
+    divergencePeriod: divergence.status === 'missing' ? '（缺失）' : divergence.content,
+    modernDifferences: modern.status === 'missing' ? ['（缺失）'] : [modern.content]
+  };
+}
+
+/* ===================== 报告序列化导出 ===================== */
+
+function formatSectionForExport(section: ReportSection): string[] {
+  const statusLabel = STATUS_LABEL[section.status];
+  const lines: string[] = [];
+  lines.push(`> 可信状态：${statusLabel}`);
+  lines.push('');
+  if (section.status === 'missing') {
+    lines.push(`【缺失】${section.missingReason ?? '该字段考据数据缺失。'}`);
+  } else {
+    lines.push(section.content);
+  }
+  if (section.evidence.length > 0) {
+    lines.push('');
+    lines.push('支撑证据：');
+    section.evidence.forEach(e => lines.push(`  - ${e}`));
+  }
+  return lines;
+}
+
+export function reportToMarkdown(report: SemanticEvolutionReport): string {
+  const lines: string[] = [];
+  lines.push('# 语义演化对比报告');
+  lines.push('');
+  lines.push(`- 词条 A：《${report.idiomA.idiom}》（${report.idiomA.pinyin}）`);
+  lines.push(`- 词条 B：《${report.idiomB.idiom}》（${report.idiomB.pinyin}）`);
+  lines.push(`- 生成时间：${new Date(report.generatedAt).toLocaleString('zh-CN')}`);
+  lines.push(`- 整体可信度：${report.overallConfidence}`);
+  if (report.missingFields.length > 0) {
+    lines.push(`- ⚠️ 缺失字段：${report.missingFields.join('、')}（已在正文中明确标注）`);
+  }
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  lines.push('## 一、共同祖义');
+  lines.push(...formatSectionForExport(report.sections.ancestral));
+  lines.push('');
+  lines.push('## 二、分叉时期');
+  lines.push(...formatSectionForExport(report.sections.divergence));
+  lines.push('');
+  lines.push('## 三、现代差异');
+  lines.push(...formatSectionForExport(report.sections.modern));
+  lines.push('');
+  lines.push('---');
+  lines.push('*本报告由「华夏成语字源与语义DNA图谱」系统生成。标注「缺失」的字段表示该词条考据数据不足，结论仅供参考。*');
+  return lines.join('\n');
+}
+
+export function reportToJson(report: SemanticEvolutionReport): string {
+  return JSON.stringify(report, null, 2);
 }

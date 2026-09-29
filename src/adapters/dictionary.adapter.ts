@@ -66,7 +66,8 @@ const RICH_IDIOMS: Record<string, IdiomProfile> = {
       coreSememes: ['侥幸心理', '墨守成规', '不劳而获', '经验主义', '缺乏应变']
     },
     modernDefinition: '比喻不主动努力，心存侥幸，希望得到意外收获；也比喻死守狭隘经验不知变通。',
-    syntacticRole: '主要作谓语、定语、状语；含嘲讽贬义'
+    syntacticRole: '主要作谓语、定语、状语；含嘲讽贬义',
+    dataVerified: true
   },
 
   '刻舟求剑': {
@@ -132,7 +133,8 @@ const RICH_IDIOMS: Record<string, IdiomProfile> = {
       coreSememes: ['思想僵化', '静止孤立', '无视变动', '墨守成规', '方法错误']
     },
     modernDefinition: '比喻死守狭隘经验，拘泥固执，不知随时间空间客观条件的变化而变化。',
-    syntacticRole: '通常作谓语、定语、状语；带贬义'
+    syntacticRole: '通常作谓语、定语、状语；带贬义',
+    dataVerified: true
   },
 
   '卧薪尝胆': {
@@ -198,7 +200,8 @@ const RICH_IDIOMS: Record<string, IdiomProfile> = {
       coreSememes: ['忍辱负重', '刻苦自励', '矢志复仇', '意志坚定', '逆境求生']
     },
     modernDefinition: '形容人刻苦自励，发愤图强，在极其艰难屈辱的逆境中坚韧不拔。',
-    syntacticRole: '通常作谓语、定语、状语；含高度赞扬褒义'
+    syntacticRole: '通常作谓语、定语、状语；含高度赞扬褒义',
+    dataVerified: true
   },
 
   '破釜沉舟': {
@@ -264,7 +267,8 @@ const RICH_IDIOMS: Record<string, IdiomProfile> = {
       coreSememes: ['断绝退路', '破釜决死', '坚定果断', '孤注一掷', '誓夺胜利']
     },
     modernDefinition: '比喻下定决心，不顾一切干到底，不留退路。',
-    syntacticRole: '作谓语、宾语、状语；含果决勇毅褒义'
+    syntacticRole: '作谓语、宾语、状语；含果决勇毅褒义',
+    dataVerified: true
   }
 };
 
