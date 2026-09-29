@@ -4,7 +4,8 @@ import {
   OracleChar,
   SemanticDNA,
   AllusionSource,
-  SemanticEvolutionStep
+  SemanticEvolutionStep,
+  DataGap
 } from './models';
 
 export function calculateKinship(a: IdiomProfile, b: IdiomProfile): KinshipResult {
@@ -107,6 +108,15 @@ export function generateGenericIdiom(text: string): IdiomProfile {
     coreSememes: ['行动', '警诫', '变化', '心境', '哲思']
   };
 
+  const dataGaps: DataGap[] = [
+    { owner: text, section: '词条档案', field: '甲骨/金石字形', kind: '存疑', reason: '该词条未收录于内置典籍库，字形为通用推演示意，非真实甲骨拓片构形' },
+    { owner: text, section: '词条档案', field: '逐字拼音与部首', kind: '存疑', reason: '通用适配器未接入读音字典，拼音为占位推演结果' },
+    { owner: text, section: '词条档案', field: '典故出处', kind: '存疑', reason: '《典籍辑佚卷》及系年为按字码推演的虚拟出处，未经典籍确证' },
+    { owner: text, section: '共同祖义', field: '本义文献依据', kind: '存疑', reason: '演化路径为通用三段式推演模板，无原始文献引文支撑' },
+    { owner: text, section: '现代差异', field: '现代权威释义', kind: '存疑', reason: '现代释义为概括性推演，未引用权威辞书' },
+    { owner: text, section: '分叉时期', field: '各阶段系年', kind: '存疑', reason: '时代标签（先秦商周／汉魏晋唐／宋明现代）为通用模板，非该词条专考' }
+  ];
+
   return {
     id: `custom-${Date.now()}`,
     idiom: text,
@@ -116,6 +126,7 @@ export function generateGenericIdiom(text: string): IdiomProfile {
     evolutionPath,
     dna,
     modernDefinition: `四字结构凝炼凝缩了东方思维智慧，蕴含深厚的文化心智密码。`,
-    syntacticRole: '常作宾语、定语或分句，具较强修辞概括力'
+    syntacticRole: '常作宾语、定语或分句，具较强修辞概括力',
+    dataGaps
   };
 }

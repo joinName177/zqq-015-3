@@ -3,14 +3,14 @@ import { IdiomProfile, KinshipResult } from '../core/models';
 export interface IdiomUIHandlers {
   onSearch: (idiomText: string) => void;
   onCompare: (idiomA: string, idiomB: string) => void;
-  onSwitchMode: (mode: 'single' | 'compare') => void;
+  onSwitchMode: (mode: 'single' | 'compare' | 'report') => void;
 }
 
 export function renderIdiomApp(
   container: HTMLElement,
   currentProfile: IdiomProfile,
   presets: string[],
-  mode: 'single' | 'compare',
+  mode: 'single' | 'compare' | 'report',
   kinshipResult: KinshipResult | null,
   compareA: string,
   compareB: string,
@@ -65,6 +65,7 @@ export function renderIdiomApp(
         <div class="mode-toggle">
           <button class="mode-btn ${mode === 'single' ? 'active' : ''}" id="btnModeSingle">单词溯源剖析</button>
           <button class="mode-btn ${mode === 'compare' ? 'active' : ''}" id="btnModeCompare">双词亲缘对比</button>
+          <button class="mode-btn ${mode === 'report' ? 'active' : ''}" id="btnModeReport">语义演化报告</button>
         </div>
       </header>
 
@@ -197,7 +198,8 @@ export function renderIdiomApp(
           </aside>
         </div>
       `
-          : `
+        : mode === 'compare'
+          ? `
         <!-- Compare Mode -->
         <section class="kinship-arena">
           <div class="section-title">
@@ -263,6 +265,10 @@ export function renderIdiomApp(
           }
         </section>
       `
+        : `
+        <!-- Semantic Evolution Comparison Report Mode (rendered by report-view) -->
+        <div id="reportModeSlot"></div>
+      `
       }
     </div>
   `;
@@ -270,6 +276,7 @@ export function renderIdiomApp(
   // Attach event listeners
   container.querySelector('#btnModeSingle')?.addEventListener('click', () => handlers.onSwitchMode('single'));
   container.querySelector('#btnModeCompare')?.addEventListener('click', () => handlers.onSwitchMode('compare'));
+  container.querySelector('#btnModeReport')?.addEventListener('click', () => handlers.onSwitchMode('report'));
 
   if (mode === 'single') {
     const singleInput = container.querySelector('#singleInput') as HTMLInputElement;
@@ -291,7 +298,7 @@ export function renderIdiomApp(
         if (idiom) handlers.onSearch(idiom);
       });
     });
-  } else {
+  } else if (mode === 'compare') {
     container.querySelector('#btnRunCompare')?.addEventListener('click', () => {
       const a = (container.querySelector('#compareInputA') as HTMLInputElement).value.trim();
       const b = (container.querySelector('#compareInputB') as HTMLInputElement).value.trim();

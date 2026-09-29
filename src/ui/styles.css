@@ -465,3 +465,454 @@ body {
   font-weight: 800;
   color: var(--bronze);
 }
+
+/* ============ 语义演化对比报告 ============ */
+.report-arena {
+  background: var(--ink-panel);
+  border: 1px solid var(--ink-border);
+  border-radius: 12px;
+  padding: 28px;
+}
+
+.report-intro {
+  font-size: 13px;
+  color: var(--ash);
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.report-intro strong {
+  color: var(--bronze);
+}
+
+.report-selector {
+  margin-bottom: 14px;
+}
+
+.field-label {
+  font-size: 12px;
+  color: var(--ash);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.report-pairs {
+  margin-bottom: 20px;
+}
+
+.report-actions-center {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.btn-generate {
+  padding: 12px 40px;
+}
+
+.report-error {
+  background: rgba(201, 59, 43, 0.12);
+  border: 1px solid var(--vermilion);
+  color: #e88a7e;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* 报告头 */
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  border-bottom: 2px solid var(--ink-border);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.report-kicker {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--ash);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.report-header h2 {
+  font-size: 28px;
+  letter-spacing: 4px;
+  color: #fff;
+  margin: 4px 0 8px;
+}
+
+.report-cross {
+  color: var(--vermilion);
+}
+
+.report-meta {
+  font-size: 12px;
+  color: var(--ash);
+}
+
+.report-header-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-report-action {
+  background: var(--ink-card);
+  border: 1px solid var(--ink-border);
+  color: var(--silk);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-report-action:hover {
+  border-color: var(--bronze);
+  color: var(--bronze);
+}
+
+.btn-report-action.btn-export {
+  border-color: rgba(64, 145, 108, 0.5);
+  color: var(--jade);
+}
+
+.btn-report-action.btn-export:hover {
+  background: rgba(64, 145, 108, 0.15);
+}
+
+/* 段落 */
+.report-section {
+  background: var(--ink-card);
+  border: 1px solid var(--ink-border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+}
+
+.report-section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.report-section-head h3 {
+  font-size: 17px;
+  color: var(--bronze);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--vermilion);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.conf-badge {
+  padding: 3px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid;
+}
+
+.conf-高 {
+  background: rgba(64, 145, 108, 0.2);
+  border-color: var(--jade);
+  color: var(--jade);
+}
+
+.conf-中 {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--bronze);
+  color: var(--bronze);
+}
+
+.conf-低,
+.conf-不可考 {
+  background: rgba(201, 59, 43, 0.2);
+  border-color: var(--vermilion);
+  color: #e88a7e;
+}
+
+/* 共同祖义 */
+.root-grid {
+  display: grid;
+  grid-template-columns: 1fr 32px 1fr;
+  gap: 12px;
+  align-items: stretch;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 768px) {
+  .root-grid {
+    grid-template-columns: 1fr;
+  }
+  .root-link {
+    text-align: center;
+  }
+}
+
+.root-card {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--ink-border);
+  border-top: 3px solid var(--jade);
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.root-card-title {
+  font-size: 12px;
+  color: var(--jade);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.root-card-body {
+  font-size: 13px;
+  color: var(--silk);
+  line-height: 1.7;
+}
+
+.root-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vermilion);
+  font-size: 20px;
+}
+
+.report-line {
+  font-size: 13px;
+  color: var(--silk);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.report-summary {
+  background: rgba(0, 0, 0, 0.25);
+  border-left: 3px solid var(--bronze);
+  border-radius: 4px;
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--silk);
+  margin: 10px 0 0;
+}
+
+/* 分叉表 */
+.fork-badge {
+  margin-left: auto;
+  padding: 4px 14px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid;
+}
+
+.fork-yes {
+  background: rgba(201, 59, 43, 0.18);
+  border-color: var(--vermilion);
+  color: #e88a7e;
+}
+
+.fork-no {
+  background: rgba(64, 145, 108, 0.18);
+  border-color: var(--jade);
+  color: var(--jade);
+}
+
+.stage-table,
+.gap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 8px 0;
+}
+
+.stage-table th,
+.stage-table td,
+.gap-table th,
+.gap-table td {
+  border: 1px solid var(--ink-border);
+  padding: 9px 11px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.stage-table th,
+.gap-table th {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--bronze);
+  font-weight: 600;
+}
+
+.stage-table td.num,
+.gap-table td.num {
+  text-align: center;
+}
+
+.cell-sub {
+  font-size: 11px;
+  color: var(--ash);
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+.cell-note {
+  font-size: 10px;
+  color: var(--ash);
+  margin-top: 5px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.align-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.align-yes {
+  background: rgba(64, 145, 108, 0.2);
+  color: var(--jade);
+}
+
+.align-no {
+  background: rgba(201, 59, 43, 0.2);
+  color: #e88a7e;
+}
+
+/* 现代差异 */
+.modern-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .modern-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modern-card {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--ink-border);
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.modern-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.modern-card p {
+  font-size: 13px;
+  color: var(--silk);
+  line-height: 1.7;
+}
+
+.modern-role {
+  font-size: 11px;
+  color: var(--ash);
+  margin: 8px 0;
+}
+
+.modern-sememes .sememe-tag.shared,
+.report-line .sememe-tag.shared {
+  border-color: var(--jade);
+  color: var(--jade);
+  background: rgba(64, 145, 108, 0.12);
+}
+
+/* 缺项标注 */
+.gap-row {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--ink-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gap-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  border: 1px solid;
+  cursor: help;
+}
+
+.gap-chip em {
+  font-style: normal;
+  opacity: 0.75;
+  font-size: 10px;
+}
+
+.gap-missing {
+  background: rgba(201, 59, 43, 0.15);
+  border-color: var(--vermilion);
+  color: #e88a7e;
+}
+
+.gap-suspect {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: var(--bronze);
+  color: var(--bronze);
+}
+
+.gap-unknown {
+  background: rgba(156, 146, 133, 0.15);
+  border-color: var(--ash);
+  color: var(--ash);
+}
+
+.gap-clear {
+  font-size: 12px;
+  color: var(--jade);
+}
+
+.gap-audit .gap-count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--ash);
+}
+
+.gap-reason {
+  color: var(--ash);
+  line-height: 1.6;
+}
+
+.gap-legend {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--ash);
+}
